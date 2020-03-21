@@ -12,8 +12,8 @@ import (
 	"strings"
 
 	"github.com/orisano/subflag"
-	"github.com/pkg/errors"
 	"github.com/xo/dburl"
+	"golang.org/x/xerrors"
 	"gopkg.in/yaml.v2"
 )
 
@@ -50,7 +50,7 @@ func (c *DBCommand) Run(args []string) error {
 	}
 	u, err := url.ParseRequestURI(c.URL)
 	if err != nil {
-		return errors.Wrap(err, "failed to parse url")
+		return xerrors.Errorf("parse url: %w", err)
 	}
 	dialect := u.Scheme
 	if u, err := dburl.Parse(c.URL); err == nil {
@@ -58,7 +58,7 @@ func (c *DBCommand) Run(args []string) error {
 	}
 	defaultPort, ok := defaultPorts[dialect]
 	if !ok {
-		return errors.Errorf("unsupported dialect: %s", dialect)
+		return xerrors.Errorf("unsupported dialect: %s", dialect)
 	}
 
 	fmt.Println(`version: '3'`)
@@ -68,7 +68,7 @@ func (c *DBCommand) Run(args []string) error {
 	if s := u.Port(); s != "" {
 		p, err := strconv.Atoi(s)
 		if err != nil {
-			return errors.Wrapf(err, "failed to parse port: %v", s)
+			return xerrors.Errorf("parse port(%v): %w", s, err)
 		}
 		port = p
 	}
@@ -115,7 +115,7 @@ func (c *DBCommand) Run(args []string) error {
 	var buf bytes.Buffer
 	err = yaml.NewEncoder(&buf).Encode(map[string]interface{}{serviceName: s})
 	if err != nil {
-		return errors.Wrap(err, "failed to encode service")
+		return xerrors.Errorf("encode service: %w", err)
 	}
 	scanner := bufio.NewScanner(&buf)
 	for scanner.Scan() {
