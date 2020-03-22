@@ -42,6 +42,7 @@ type service struct {
 	Command     string            `yaml:"command,omitempty"`
 	Environment map[string]string `yaml:"environment,omitempty"`
 	Ports       []string          `yaml:"ports"`
+	comments    []string
 }
 
 func (c *DBCommand) Run(args []string) error {
@@ -99,6 +100,8 @@ func (c *DBCommand) Run(args []string) error {
 			"MYSQL_ALLOW_EMPTY_PASSWORD": "yes",
 		}
 		s.Command = "--default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+		s.comments = append(s.comments, "  volumes:")
+		s.comments = append(s.comments, "  - ./sql:/docker-entrypoint-initdb.d:ro")
 	case "postgres":
 		s.Image = "postgres:" + c.Tag
 		s.Environment = map[string]string{
@@ -106,6 +109,8 @@ func (c *DBCommand) Run(args []string) error {
 			"POSTGRES_USER":     username,
 			"POSTGRES_PASSWORD": password,
 		}
+		s.comments = append(s.comments, "  volumes:")
+		s.comments = append(s.comments, "  - ./sql:/docker-entrypoint-initdb.d:ro")
 	case "redis":
 		s.Image = "redis:" + c.Tag
 		if password != "" {
@@ -120,6 +125,9 @@ func (c *DBCommand) Run(args []string) error {
 	scanner := bufio.NewScanner(&buf)
 	for scanner.Scan() {
 		fmt.Printf("%*s%s\n", 2, "", scanner.Text())
+	}
+	for _, comment := range s.comments {
+		fmt.Printf("#%*s%s\n", 1, "", comment)
 	}
 
 	return nil
