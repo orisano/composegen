@@ -23,6 +23,8 @@ services:
       POSTGRES_USER: booktest
     ports:
     - 5432:5432
+#   volumes:
+#   - ./sql:/docker-entrypoint-initdb.d:ro
 ```
 
 #### mysql
@@ -41,6 +43,8 @@ services:
       MYSQL_USER: booktest
     ports:
     - 3306:3306
+#   volumes:
+#   - ./sql:/docker-entrypoint-initdb.d:ro
 ```
 
 #### redis
