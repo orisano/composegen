@@ -11,10 +11,10 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/goccy/go-yaml"
 	"github.com/orisano/subflag"
 	"github.com/xo/dburl"
 	"golang.org/x/xerrors"
-	"gopkg.in/yaml.v2"
 )
 
 var defaultPorts = map[string]int{
