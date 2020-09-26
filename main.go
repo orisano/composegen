@@ -41,6 +41,7 @@ type service struct {
 	Command     string            `yaml:"command,omitempty"`
 	Environment map[string]string `yaml:"environment,omitempty"`
 	Ports       []string          `yaml:"ports"`
+	CapAdd      []string          `yaml:"cap_add"`
 	comments    []string
 }
 
@@ -99,6 +100,9 @@ func (c *DBCommand) Run(_ []string) error {
 			"MYSQL_ALLOW_EMPTY_PASSWORD": "yes",
 		}
 		s.Command = "--default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+		if !strings.HasPrefix(c.Tag, "5") {
+			s.CapAdd = append(s.CapAdd, "SYS_NICE")
+		}
 		s.comments = append(s.comments, "  volumes:")
 		s.comments = append(s.comments, "  - ./sql:/docker-entrypoint-initdb.d:ro")
 	case "postgres":
