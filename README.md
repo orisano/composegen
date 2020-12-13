@@ -34,15 +34,16 @@ version: '3'
 services:
   mysql:
     image: mysql:latest
-    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4
-      --collation-server=utf8mb4_unicode_ci
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --long-query-time=0 --slow-query-log=ON --slow-query-log-file=slow.log
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
       MYSQL_DATABASE: booktest
       MYSQL_PASSWORD: booktest
       MYSQL_USER: booktest
     ports:
-    - 3306:3306
+    - "3306:3306"
+    cap_add:
+    - SYS_NICE
 #   volumes:
 #   - ./sql:/docker-entrypoint-initdb.d:ro
 ```
