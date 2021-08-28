@@ -97,7 +97,7 @@ func (c *DBCommand) Run(_ []string) error {
 			"MYSQL_DATABASE":             database,
 			"MYSQL_USER":                 username,
 			"MYSQL_PASSWORD":             password,
-			"MYSQL_ALLOW_EMPTY_PASSWORD": "yes",
+			"MYSQL_ALLOW_EMPTY_PASSWORD": "1",
 		}
 		s.Command = "--default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --long-query-time=0 --slow-query-log=ON --slow-query-log-file=slow.log"
 		if !strings.HasPrefix(c.Tag, "5") {
