@@ -20,6 +20,7 @@ var defaultPorts = map[string]int{
 	"postgres": 5432,
 	"mysql":    3306,
 	"redis":    6379,
+	"mongodb":  27017,
 }
 
 type DBCommand struct {
@@ -119,6 +120,14 @@ func (c *DBCommand) Run(_ []string) error {
 		if password != "" {
 			s.Command = fmt.Sprintf("--requirepass %q", password)
 		}
+	case "mongodb":
+		s.Image = "mongo:" + c.Tag
+		s.Environment = map[string]string{
+			"MONGO_INITDB_ROOT_USERNAME": username,
+			"MONGO_INITDB_ROOT_PASSWORD": password,
+		}
+		s.comments = append(s.comments, "  volumes:")
+		s.comments = append(s.comments, "  - ./js:/docker-entrypoint-initdb.d:ro")
 	}
 	var buf bytes.Buffer
 	err = yaml.NewEncoder(&buf).Encode(map[string]interface{}{serviceName: s})
