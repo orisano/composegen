@@ -21,6 +21,7 @@ var defaultPorts = map[string]int{
 	"mysql":    3306,
 	"redis":    6379,
 	"mongodb":  27017,
+	"gcs":      4443,
 }
 
 type DBCommand struct {
@@ -42,7 +43,7 @@ type service struct {
 	Command     string            `yaml:"command,omitempty"`
 	Environment map[string]string `yaml:"environment,omitempty"`
 	Ports       []string          `yaml:"ports"`
-	CapAdd      []string          `yaml:"cap_add"`
+	CapAdd      []string          `yaml:"cap_add,omitempty"`
 	comments    []string
 }
 
@@ -128,6 +129,15 @@ func (c *DBCommand) Run(_ []string) error {
 		}
 		s.comments = append(s.comments, "  volumes:")
 		s.comments = append(s.comments, "  - ./js:/docker-entrypoint-initdb.d:ro")
+	case "gcs":
+		serviceName = "gcs"
+		publicHost := "localhost:" + strconv.Itoa(port)
+		s.Image = "fsouza/fake-gcs-server:" + c.Tag
+		s.Command = "-scheme http -public-host " + publicHost
+		s.comments = append(s.comments, "  volumes:")
+		s.comments = append(s.comments, "  - ./data:/data:ro")
+		s.comments = append(s.comments, "  environment:")
+		s.comments = append(s.comments, fmt.Sprintf("    STORAGE_EMULATOR_HOST=http://"+publicHost))
 	}
 	var buf bytes.Buffer
 	err = yaml.NewEncoder(&buf).Encode(map[string]interface{}{serviceName: s})
