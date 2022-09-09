@@ -7,7 +7,7 @@ require (
 	github.com/goccy/go-yaml v1.9.5
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/orisano/subflag v1.0.0
-	github.com/xo/dburl v0.12.1
-	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
-	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
+	github.com/xo/dburl v0.12.2
+	golang.org/x/sys v0.0.0-20220908164124-27713097b956 // indirect
+	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 )
