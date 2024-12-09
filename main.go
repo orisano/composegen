@@ -57,14 +57,13 @@ func (c *DBCommand) Run(_ []string) error {
 	}
 	dialect := u.Scheme
 	if u, err := dburl.Parse(c.URL); err == nil {
-		dialect = u.Unaliased
+		dialect = u.UnaliasedDriver
 	}
 	defaultPort, ok := defaultPorts[dialect]
 	if !ok {
 		return fmt.Errorf("unsupported dialect: %s", dialect)
 	}
 
-	fmt.Println(`version: '3'`)
 	fmt.Println(`services:`)
 
 	port := defaultPort
@@ -101,8 +100,8 @@ func (c *DBCommand) Run(_ []string) error {
 			"MYSQL_PASSWORD":             password,
 			"MYSQL_ALLOW_EMPTY_PASSWORD": "1",
 		}
-		s.Command = "--default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --long-query-time=0 --slow-query-log=ON --slow-query-log-file=slow.log"
-		if !strings.HasPrefix(c.Tag, "5") {
+		s.Command = "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+		if c.Tag == "latest" || !strings.HasPrefix(c.Tag, "5") {
 			s.CapAdd = append(s.CapAdd, "SYS_NICE")
 		}
 		s.comments = append(s.comments, "  volumes:")
