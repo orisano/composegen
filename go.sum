@@ -2,5 +2,5 @@ github.com/goccy/go-yaml v1.15.23 h1:WS0GAX1uNPDLUvLkNU2vXq6oTnsmfVFocjQ/4qA48qo
 github.com/goccy/go-yaml v1.15.23/go.mod h1:XBurs7gK8ATbW4ZPGKgcbrY1Br56PdM69F7LkFRi1kA=
 github.com/orisano/subflag v1.0.0 h1:I7LokATrdfomf0Kb9ry4LuR9ctGtA/CE5hm5+FqfmL4=
 github.com/orisano/subflag v1.0.0/go.mod h1:FUd80amX680uKAse7zMROuXnA6yO0ebeDw+JIvctk+Y=
-github.com/xo/dburl v0.23.3 h1:s9tUyKAkcgRfNQ7ut5gaDWC9s5ROafY3hmNOrGbNXtE=
-github.com/xo/dburl v0.23.3/go.mod h1:uazlaAQxj4gkshhfuuYyvwCBouOmNnG2aDxTCFZpmL4=
+github.com/xo/dburl v0.23.4 h1:VLI0JT+w95uDiGhCYqbuLTM3gkfg5ODiSoegiEZpcVg=
+github.com/xo/dburl v0.23.4/go.mod h1:uazlaAQxj4gkshhfuuYyvwCBouOmNnG2aDxTCFZpmL4=
