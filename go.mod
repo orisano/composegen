@@ -7,5 +7,5 @@ toolchain go1.22.2
 require (
 	github.com/goccy/go-yaml v1.17.1
 	github.com/orisano/subflag v1.0.0
-	github.com/xo/dburl v0.23.6
+	github.com/xo/dburl v0.23.7
 )
